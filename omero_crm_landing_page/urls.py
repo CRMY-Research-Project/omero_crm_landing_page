@@ -23,4 +23,11 @@ from . import views
 urlpatterns = [
     # index 'home page' of the app
     path("", views.index, name="omero_crm_landing_page_index"),
+
+    # server-side image search across all projects (TC-05)
+    path("search/", views.search, name="omero_crm_landing_page_search"),
+
+    # WS-G: identity + owned-data summary for the shell / "My Portal" dashboard
+    path("portal/summary/", views.portal_summary,
+         name="omero_crm_landing_page_portal_summary"),
 ]

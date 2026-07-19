@@ -1,5 +1,6 @@
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+/* Design tokens (self-hosted, no CDN): --brass, --paper, font stacks, etc.
+   Replaces the former Google-Fonts "Inter" + Font Awesome CDN imports. */
+@import "./tokens.css";
 
 /* Reset default margins and padding */
 html,
@@ -11,8 +12,9 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
-  background-color: white;
-  font-family: "Inter", sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
 }
 
 .page-container {
@@ -109,7 +111,7 @@ nav {
   height: 2px;
   bottom: -5px;
   left: 0;
-  background-color: #00b4d8;
+  background-color: var(--brass);
   transition: width 0.3s ease;
 }
 
@@ -119,12 +121,12 @@ nav {
 
 /* Active navigation item */
 .nav-links li.active button {
-  color: #00b4d8;
+  color: var(--brass);
 }
 
 .nav-links li.active button span::after {
   width: 100% !important;
-  background-color: #00b4d8;
+  background-color: var(--brass);
 }
 
 /* Keep the hover effect */
@@ -148,12 +150,18 @@ main {
 }
 
 .intro-section {
-  padding: 40px 20px;
+  padding: 72px 20px;
   margin-top: 20px;
-  /* Matches the height of the navbar */
-  background-color: white;
-  background-image: url("https://images.unsplash.com/photo-1592838948611-69071139f9e9?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
-  background-size: cover;
+  /* Asset-free "specimen under glass" motif: a slate -> verdigris duotone wash
+     under a faint microscope-reticle grid. No remote image (CSP-safe), and
+     distinct from the stock stock-photo hero it replaces. */
+  background-color: var(--ink);
+  background-image:
+    linear-gradient(135deg, rgba(15, 124, 107, 0.42), rgba(24, 42, 49, 0.92)),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 40px),
+    radial-gradient(circle at 28% 32%, rgba(63, 182, 161, 0.28), transparent 60%);
+  background-size: cover, 40px 40px, 40px 40px, cover;
   background-position: center;
   text-align: center;
 }
@@ -177,6 +185,9 @@ main {
   font-weight: bolder;
 }
 
+.intro-section h2 {
+  font-family: var(--font-display);
+}
 .intro-section h2,
 .intro-section p {
   text-align: center;
@@ -200,7 +211,7 @@ main {
 }
 
 .omero-table thead {
-  background-color: #00b4d8;
+  background-color: var(--brass);
   color: white;
   text-align: center;
   font-weight: bold;
@@ -249,8 +260,8 @@ main {
 
 .search-bar:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border-color: var(--brass);
+  box-shadow: 0 0 0 3px var(--brass-tint);
 }
 
 .clear-search {
@@ -295,7 +306,7 @@ main {
   min-width: 100px;
   font-size: 1rem;
   text-align: center;
-  background-color: #00b4d8;
+  background-color: var(--brass);
   color: white;
   border: none;
   border-radius: 5px;
@@ -308,7 +319,7 @@ main {
 }
 
 .viewer-btn {
-  background-color: #00b4d8;
+  background-color: var(--brass);
   color: white;
   font-weight: bold;
   border: none;
@@ -319,7 +330,7 @@ main {
 }
 
 .viewer-btn:hover {
-  background-color: #2980b9;
+  background-color: var(--brass-deep);
 }
 
 .outro-section {
@@ -390,7 +401,7 @@ main {
 }
 
 .donate-btn {
-  background-color: #00b4d8;
+  background-color: var(--brass);
   color: white;
   border: none;
   padding: 12px 30px;
@@ -406,7 +417,7 @@ main {
 }
 
 .donate-btn:hover {
-  background-color: #2980b9;
+  background-color: var(--brass-deep);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
@@ -442,7 +453,7 @@ main {
 
 .guide-nav h3 {
   margin-bottom: 20px;
-  color: #00b4d8;
+  color: var(--brass);
 }
 
 .guide-nav ul {
@@ -467,14 +478,14 @@ main {
 .guide-nav a:hover,
 .guide-nav a.active {
   background-color: #f0f8ff;
-  color: #00b4d8;
+  color: var(--brass);
   font-weight: 500;
 }
 
 .guide-nav a.selected {
   display: block;
   font-weight: bold;
-  background-color: #00b4d8;
+  background-color: var(--brass);
   color: white;
   text-decoration: none;
 }
@@ -494,7 +505,7 @@ main {
 }
 
 .guide-section h2 {
-  color: #00b4d8;
+  color: var(--brass);
   margin-top: 0;
   padding-bottom: 10px;
   border-bottom: 2px solid #e1f5fe;
@@ -507,7 +518,7 @@ main {
 }
 
 .step-number {
-  background-color: #00b4d8;
+  background-color: var(--brass);
   color: white;
   width: 30px;
   height: 30px;
@@ -536,7 +547,7 @@ main {
 .note {
   background-color: #e1f5fe;
   padding: 15px;
-  border-left: 4px solid #00b4d8;
+  border-left: 4px solid var(--brass);
   margin: 20px 0;
   border-radius: 0 4px 4px 0;
 }
@@ -608,7 +619,7 @@ main {
   bottom: 0;
   width: 300px;
   height: 2px;
-  background: #3498db;
+  background: var(--brass);
 }
 
 .footer-section p,
@@ -621,7 +632,7 @@ main {
 }
 
 .footer-section a:hover {
-  color: #3498db;
+  color: var(--brass);
 }
 
 .footer-section ul {
@@ -646,7 +657,7 @@ main {
 }
 
 .social-icons a:hover {
-  color: #3498db;
+  color: var(--brass);
   transform: translateY(-3px);
 }
 

@@ -1,0 +1,37 @@
+# Frontend CI: build, unit tests and (non-blocking) type check for the
+# Svelte landing page, plus a syntax check of the Django plugin shell.
+name: Web CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Unit tests
+        run: npm test
+      - name: Build
+        run: npx vite build
+      # 11 implicit-any errors pre-date this workflow; keep the check
+      # visible without failing CI until the codebase is typed.
+      - name: Type check (non-blocking)
+        run: npm run check || true
+
+  django-plugin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Syntax check plugin
+        run: python -m py_compile omero_crm_landing_page/*.py

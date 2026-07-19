@@ -1,0 +1,82 @@
+/* ==========================================================================
+   Portal Design System — "Specimen Archive" tokens (WS-G)
+   Verbatim shared palette/type/space/motion tokens. IDENTICAL values to the
+   WS-I download-governance console so the two surfaces read as one system.
+   No CDN: OS font stacks with a self-hosted @font-face seam (see design-system.md).
+   ========================================================================== */
+
+:root {
+  /* ---- Type (no CDN; OS faces with character, generic-keyword fallback) -- */
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+                  Palatino, Charter, Constantia, Georgia, serif;
+  --font-sans: "Optima", "Gill Sans Nova", "Gill Sans", Corbel, "Avenir Next",
+               "Segoe UI Historic", sans-serif;
+  --font-mono: "Cascadia Code", "JetBrains Mono", "IBM Plex Mono", "SF Mono",
+               Consolas, "DejaVu Sans Mono", ui-monospace, monospace;
+
+  /* ---- Colour · light (archival paper + slate ink) --------------------- */
+  --paper: #F1EDE3;      /* app background — warm archival stock            */
+  --surface: #FBF9F3;    /* cards / panels                                  */
+  --surface-2: #E9E3D5;  /* insets, table headers, hovers                  */
+  --ink: #182A31;        /* primary text — slate, never pure black         */
+  --ink-soft: #566368;   /* secondary text                                 */
+  --ink-faint: #8A938F;  /* meta / disabled                                */
+  --line: #D8D0BF;       /* hairline rules / borders                       */
+  --line-strong: #C3B8A1;
+
+  --brass: #0F7C6B;      /* primary accent — verdigris / lab glass         */
+  --brass-deep: #0B5D50; /* hover / pressed                                */
+  --brass-tint: #DCEAE4; /* approved/active backgrounds                    */
+  --mulberry: #9C3A57;   /* destructive / "stain" (deny, revoke)           */
+  --mulberry-deep: #7E2B45;
+  --mulberry-tint: #F3E1E6;
+  --ochre: #A8761B;      /* pending / attention (specimen warning tape)    */
+  --ochre-tint: #F1E7CF;
+
+  /* ---- Space / shape / depth ------------------------------------------- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+  --r-xs: 2px;  /* data rows, pills — deliberately sharp                   */
+  --r: 6px;     /* inputs, buttons                                         */
+  --r-lg: 12px; /* drawers, primary cards                                  */
+  --r-pill: 999px;
+  --shadow-1: 0 1px 0 var(--line);
+  --shadow-2: 0 1px 0 var(--line), 0 12px 34px -20px rgba(16,26,30,.55);
+
+  /* ---- Motion ---------------------------------------------------------- */
+  --ease: cubic-bezier(.2,.7,.2,1);
+  --ease-out: cubic-bezier(.16,1,.3,1);
+  --dur-1: 120ms; --dur-2: 200ms; --dur-3: 340ms;
+
+  color-scheme: light dark;
+}
+
+/* ---- Colour · dark (auto via OS preference) ---------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #101A1E; --surface: #172329; --surface-2: #1E2C33;
+    --ink: #ECE6D8; --ink-soft: #A6B0AF; --ink-faint: #6E7B7A;
+    --line: #2A383E; --line-strong: #3A4A50;
+    --brass: #3FB6A1; --brass-deep: #2C8E7E; --brass-tint: #123A34;
+    --mulberry: #D67C92; --mulberry-deep: #E79BAD; --mulberry-tint: #3A2029;
+    --ochre: #DDA748; --ochre-tint: #372A12;
+  }
+}
+
+/* explicit theme toggles win over the media query in both directions */
+:root[data-theme="dark"] {
+  --paper: #101A1E; --surface: #172329; --surface-2: #1E2C33;
+  --ink: #ECE6D8; --ink-soft: #A6B0AF; --ink-faint: #6E7B7A;
+  --line: #2A383E; --line-strong: #3A4A50;
+  --brass: #3FB6A1; --brass-deep: #2C8E7E; --brass-tint: #123A34;
+  --mulberry: #D67C92; --mulberry-deep: #E79BAD; --mulberry-tint: #3A2029;
+  --ochre: #DDA748; --ochre-tint: #372A12;
+}
+:root[data-theme="light"] {
+  --paper: #F1EDE3; --surface: #FBF9F3; --surface-2: #E9E3D5;
+  --ink: #182A31; --ink-soft: #566368; --ink-faint: #8A938F;
+  --line: #D8D0BF; --line-strong: #C3B8A1;
+  --brass: #0F7C6B; --brass-deep: #0B5D50; --brass-tint: #DCEAE4;
+  --mulberry: #9C3A57; --mulberry-deep: #7E2B45; --mulberry-tint: #F3E1E6;
+  --ochre: #A8761B; --ochre-tint: #F1E7CF;
+}

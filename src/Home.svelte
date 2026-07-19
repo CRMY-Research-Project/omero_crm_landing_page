@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type { Route } from "./App.svelte";
     import ProjectTable from "./ProjectTable.svelte";
   
     export let datasetCount: number;
@@ -10,7 +9,6 @@
     export let datasetsPerPage: number;
     export let getViewerUrl: (imageId: number, datasetId: number) => string;
     export let changePage: (num: number) => void;
-    export let navigate: (route: Route) => void;
     export let onSearchUpdate: (search: string) => void;
     
     let viewerContainer: HTMLElement;
@@ -115,6 +113,7 @@
     </div>
     <iframe
       id="omero-viewer-iframe"
+      title="OMERO image viewer"
       src={viewerState.viewerUrl}
       width="100%"
       height="800"
@@ -139,9 +138,16 @@
                 people with cancer.
             </h2>
 
+            <!-- The internal "donate" route was an empty page (NFR2);
+                 link to Cancer Research Malaysia's real donation site instead -->
             <button
                 class="donate-btn"
-                on:click={() => (navigate("donate"))}
+                on:click={() =>
+                    window.open(
+                        "https://www.cancerresearch.my/donate/",
+                        "_blank",
+                        "noopener"
+                    )}
             >
                 Donate Now
             </button>

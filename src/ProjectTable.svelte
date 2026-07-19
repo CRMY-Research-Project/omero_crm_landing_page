@@ -1,4 +1,11 @@
 <script lang="ts">
+    import DownloadModal from "./DownloadModal.svelte";
+    import {
+        gateStatusUrl,
+        gateDownloadUrl,
+        type DownloadStatus,
+    } from "./lib/api";
+
     export let datasetCount: number;
     export let projects: any[];
     export let searchQuery: string;
@@ -13,8 +20,41 @@
     $: hasNextPage = () => currentPage * datasetsPerPage < paginatedDatasets.length;
     $: hasPrevPage = () => currentPage > 1;
 
+    // Per-image download-button state, keyed by image id.
+    let downloadState: Record<number, string> = {};
+    let modalImage: any = null;
+
     function openViewer(imageId: number, datasetId: number) {
         onViewerOpen(imageId, datasetId); // Call the parent-provided callback
+    }
+
+    // Lazy: only ask the gate when the user actually clicks Download.
+    async function handleDownload(image: any) {
+        downloadState = { ...downloadState, [image.id]: "checking" };
+        try {
+            const res = await fetch(gateStatusUrl(image.id), {
+                headers: { Accept: "application/json" },
+            });
+            // Public (not-logged-in) users are blocked from the gate URL
+            // by OMERO's public url_filter -> non-JSON / redirect.
+            const data: DownloadStatus = await res.json().catch(() => null as any);
+            if (!res.ok || !data || data.success === false) {
+                downloadState = { ...downloadState, [image.id]: "login" };
+                return;
+            }
+            if (data.can_download) {
+                // approved / owner / admin -> stream the original file
+                window.location.assign(gateDownloadUrl(image.id));
+                downloadState = { ...downloadState, [image.id]: "idle" };
+            } else if (data.has_pending_request) {
+                downloadState = { ...downloadState, [image.id]: "pending" };
+            } else {
+                modalImage = image; // open request modal
+                downloadState = { ...downloadState, [image.id]: "idle" };
+            }
+        } catch (e) {
+            downloadState = { ...downloadState, [image.id]: "login" };
+        }
     }
 
     function handleSearchChange(e: Event) {
@@ -66,7 +106,7 @@
                         <td>
                             <img
                                 src={image.src}
-                                alt="OMERO Image Thumbnail"
+                                alt="Thumbnail of {image.imageName}"
                                 width="100"
                             />
                         </td>
@@ -80,6 +120,23 @@
                             >
                                 Quick View
                             </button>
+                            {#if downloadState[image.id] === "pending"}
+                                <span class="dl-status pending" title="An administrator is reviewing your request">
+                                    Request pending
+                                </span>
+                            {:else if downloadState[image.id] === "login"}
+                                <a class="download-btn" href={window.location.origin + "/webclient/login/"}>
+                                    Log in to download
+                                </a>
+                            {:else}
+                                <button
+                                    class="download-btn"
+                                    on:click|preventDefault={() => handleDownload(image)}
+                                    disabled={downloadState[image.id] === "checking"}
+                                >
+                                    {downloadState[image.id] === "checking" ? "Checking…" : "Download"}
+                                </button>
+                            {/if}
                         </td>
                     </tr>
                 {/each}
@@ -101,3 +158,39 @@
         <p>Loading projects...</p>
     {/if}
 </main>
+
+{#if modalImage}
+    <DownloadModal image={modalImage} onClose={() => (modalImage = null)} />
+{/if}
+
+<style>
+    .download-btn {
+        display: inline-block;
+        margin-left: 8px;
+        padding: 6px 14px;
+        border: 1px solid #2563eb;
+        background: #fff;
+        color: #2563eb;
+        border-radius: 6px;
+        font: inherit;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .download-btn:hover {
+        background: #2563eb;
+        color: #fff;
+    }
+    .download-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+    .dl-status.pending {
+        display: inline-block;
+        margin-left: 8px;
+        padding: 6px 12px;
+        font-size: 0.82rem;
+        color: #92400e;
+        background: #fef3c7;
+        border-radius: 6px;
+    }
+</style>
