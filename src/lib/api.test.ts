@@ -4,6 +4,7 @@ import {
   formatDate,
   formatExpiry,
   gateDownloadUrl,
+  gateAccessUrl,
   gateMyGrantsUrl,
   gateMyRequestsUrl,
   gateRequestUrl,
@@ -91,6 +92,11 @@ describe("dashboard endpoint URLs", () => {
     expect(gateMyGrantsUrl()).toBe("/omero_download_gate/grants/mine/");
     expect(gateMyGrantsUrl(undefined, false)).toBe(
       "/omero_download_gate/grants/mine/?active=0"
+    );
+  });
+  it("deep-links a grant into the gate's My access browser", () => {
+    expect(gateAccessUrl("a".repeat(32))).toBe(
+      "/omero_download_gate/#grant-" + "a".repeat(32)
     );
   });
 

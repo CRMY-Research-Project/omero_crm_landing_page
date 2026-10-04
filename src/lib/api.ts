@@ -122,6 +122,16 @@ export function gateMyRequestsUrl(base = GATE_BASE): string {
 export function gateMyGrantsUrl(base = GATE_BASE, activeOnly = true): string {
   return activeOnly ? `${base}/grants/mine/` : `${base}/grants/mine/?active=0`;
 }
+/**
+ * Deep link into the gate's "My access" browser, opened at one grant.
+ *
+ * @param grantId - The grant to expand (its 32-hex id).
+ * @param base - Gate mount point; defaults to GATE_BASE.
+ * @returns The gate page URL with a `#grant-<id>` fragment.
+ */
+export function gateAccessUrl(grantId: string, base = GATE_BASE): string {
+  return `${base}/#grant-${grantId}`;
+}
 export function webimportIndexUrl(base = WEBIMPORT_BASE): string {
   return `${base}/`;
 }

@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import {
     GATE_BASE,
+    gateAccessUrl,
     gateMyRequestsUrl,
     gateMyGrantsUrl,
     webimportIndexUrl,
@@ -129,7 +130,7 @@
         <div class="table-scroll">
           <table>
             <thead>
-              <tr><th>Scope</th><th>Status</th><th>Granted</th><th>Expiry</th></tr>
+              <tr><th>Scope</th><th>Status</th><th>Granted</th><th>Expiry</th><th>Access</th></tr>
             </thead>
             <tbody>
               {#each grants as g (g.id)}
@@ -138,6 +139,13 @@
                   <td><span class="pill pill--{pillTone(grantStatus(g))}">{grantStatus(g)}</span></td>
                   <td class="mono">{formatDate(g.granted_at)}</td>
                   <td class="mono">{formatExpiry(g.expires_at)}</td>
+                  <td>
+                    {#if g.active}
+                      <a class="open-link" href={gateAccessUrl(g.id)}>Browse &amp; download&nbsp;&rarr;</a>
+                    {:else}
+                      <span class="muted">&mdash;</span>
+                    {/if}
+                  </td>
                 </tr>
               {/each}
             </tbody>
@@ -297,6 +305,25 @@
   .empty {
     color: var(--ink-soft);
     padding: 14px 0;
+  }
+  .open-link {
+    font-weight: 600;
+    color: var(--brass);
+    text-decoration: none;
+    white-space: nowrap;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .open-link {
+      transition: background-size 0.2s ease;
+    }
+  }
+  .open-link:hover,
+  .open-link:focus-visible {
+    background-size: 100% 1px;
   }
 
   /* Status pill — the "specimen label": sharp corner + left colour bar. */
