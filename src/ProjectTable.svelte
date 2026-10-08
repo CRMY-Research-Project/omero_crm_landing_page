@@ -134,7 +134,7 @@
                                     on:click|preventDefault={() => handleDownload(image)}
                                     disabled={downloadState[image.id] === "checking"}
                                 >
-                                    {downloadState[image.id] === "checking" ? "Checking…" : "Download"}
+                                    {downloadState[image.id] === "checking" ? "Checking..." : "Download"}
                                 </button>
                             {/if}
                         </td>
@@ -165,32 +165,15 @@
 
 <style>
     .download-btn {
-        display: inline-block;
-        margin-left: 8px;
-        padding: 6px 14px;
-        border: 1px solid #2563eb;
-        background: #fff;
-        color: #2563eb;
-        border-radius: 6px;
-        font: inherit;
-        cursor: pointer;
-        text-decoration: none;
+        display: inline-block; margin-left: 8px; padding: 8px 12px;
+        font-family: inherit; font-size: 13.333px; font-weight: bold;   /* upstream's Quick View size */
+        border: 1px solid var(--accent); background: var(--surface); color: var(--accent);
+        border-radius: 5px; cursor: pointer; text-decoration: none;
     }
-    .download-btn:hover {
-        background: #2563eb;
-        color: #fff;
-    }
-    .download-btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
+    .download-btn:hover { background: var(--accent); color: var(--on-accent); }
+    .download-btn:disabled { cursor: not-allowed; background: var(--border-strong); border-color: var(--border-strong); color: #555555; }
     .dl-status.pending {
-        display: inline-block;
-        margin-left: 8px;
-        padding: 6px 12px;
-        font-size: 0.82rem;
-        color: #92400e;
-        background: #fef3c7;
-        border-radius: 6px;
+        display: inline-block; margin-left: 8px; padding: 6px 12px; font-size: 14px; font-weight: 600;
+        color: var(--wait); background: var(--wait-tint); border-radius: 5px;
     }
 </style>

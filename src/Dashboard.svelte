@@ -55,7 +55,6 @@
 
 <section class="portal">
   <header class="portal-head">
-    <p class="eyebrow">My Portal</p>
     <h1>Welcome{summary?.full_name ? `, ${summary.full_name}` : ""}</h1>
     <p class="muted">
       Your download requests, active access grants, and uploads in one place.
@@ -86,7 +85,7 @@
   {#if error}
     <p class="empty">{error}</p>
   {:else if loading}
-    <p class="empty">Loading your portal…</p>
+    <p class="empty">Loading your portal...</p>
   {:else}
     <div class="stat-row">
       <div class="stat"><span class="stat-n">{pendingRequests}</span> pending {pendingRequests === 1 ? "request" : "requests"}</div>
@@ -96,7 +95,7 @@
     <div class="panel">
       <h2 class="section-label">My access requests</h2>
       {#if requests.length === 0}
-        <p class="empty">No requests yet — submit one from “Request access”.</p>
+        <p class="empty">No requests yet. Submit one from "Request access".</p>
       {:else}
         <div class="table-scroll">
           <table>
@@ -113,7 +112,7 @@
                   <td><span class="pill pill--{pillTone(r.status)}">{r.status}</span></td>
                   <td class="mono">{formatDate(r.created_at)}</td>
                   <td class="mono">{formatDate(r.reviewed_at)}</td>
-                  <td class="mono">{r.expires_at ? formatExpiry(r.expires_at) : "—"}</td>
+                  <td class="mono">{r.expires_at ? formatExpiry(r.expires_at) : "-"}</td>
                 </tr>
               {/each}
             </tbody>
@@ -141,9 +140,9 @@
                   <td class="mono">{formatExpiry(g.expires_at)}</td>
                   <td>
                     {#if g.active}
-                      <a class="open-link" href={gateAccessUrl(g.id)}>Browse &amp; download&nbsp;&rarr;</a>
+                      <a class="open-link" href={gateAccessUrl(g.id)}>Browse &amp; download</a>
                     {:else}
-                      <span class="muted">&mdash;</span>
+                      <span class="muted">-</span>
                     {/if}
                   </td>
                 </tr>
@@ -157,199 +156,56 @@
 </section>
 
 <style>
-  .portal {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 32px 20px 64px;
-  }
-  .eyebrow {
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    font-size: 0.72rem;
-    color: var(--brass);
-    margin: 0 0 4px;
-  }
-  .portal-head h1 {
-    font-family: var(--font-display);
-    font-weight: 600;
-    margin: 0 0 6px;
-    font-size: 2rem;
-    color: var(--ink);
-  }
-  .muted {
-    color: var(--ink-soft);
-  }
+  /* the nav is fixed (upstream) and about 110px tall: start the page below it */
+  .portal { max-width: 1000px; margin: 0 auto; padding: 80px 20px 64px; }
+  .portal-head h1 { margin: 0 0 6px; font-size: 32px; font-weight: 700; color: var(--heading); }
+  .muted { color: var(--text-muted); }
+  /* panel titles: upstream's guide-section headings (cyan, a light rule) */
   .section-label {
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: 0.72rem;
-    color: var(--ink-soft);
-    margin: 0 0 12px;
-    font-weight: 600;
+    margin: 0 0 14px; padding-bottom: 10px; border-bottom: 2px solid var(--accent-tint);
+    font-size: 24px; font-weight: 700; color: var(--accent);
   }
 
-  .quick-actions {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-    margin: 24px 0;
-  }
+  /* quick actions: upstream's cards (white, 8px corners, soft shadow) with a cyan title */
+  .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 24px 0; }
   .qa {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    text-align: left;
-    text-decoration: none;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 16px 18px;
-    color: var(--ink);
-    cursor: pointer;
-    font: inherit;
-    position: relative;
-    overflow: hidden;
+    display: flex; flex-direction: column; gap: 4px; text-align: left; text-decoration: none;
+    background: var(--surface); border: 0; border-radius: var(--r-lg); box-shadow: var(--shadow-2);
+    padding: 20px 22px; color: var(--text); cursor: pointer; font: inherit;
   }
-  .qa::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: var(--brass);
-    transform: scaleY(0);
-    transform-origin: top;
-  }
+  .qa:hover { box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); }
   @media (prefers-reduced-motion: no-preference) {
-    .qa {
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .qa::before {
-      transition: transform 0.2s ease;
-    }
+    .qa { transition: box-shadow 0.3s ease, transform 0.3s ease; }
+    .qa:hover { transform: translateY(-2px); }
   }
-  .qa:hover {
-    box-shadow: 0 12px 34px -20px rgba(16, 26, 30, 0.55);
-    transform: translateY(-2px);
-  }
-  .qa:hover::before {
-    transform: scaleY(1);
-  }
-  .qa:focus-visible {
-    outline: 2px solid var(--brass);
-    outline-offset: 2px;
-  }
-  .qa-title {
-    font-weight: 700;
-  }
-  .qa-sub {
-    color: var(--ink-soft);
-    font-size: 0.85rem;
-  }
+  .qa:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .qa-title { font-size: 18.72px; font-weight: 700; color: var(--accent); }
+  .qa:hover .qa-title { color: var(--accent-hover); }
+  .qa-sub { color: var(--text-muted); font-size: 14px; }
 
-  .stat-row {
-    display: flex;
-    gap: 24px;
-    margin: 8px 0 4px;
-    flex-wrap: wrap;
-  }
-  .stat {
-    color: var(--ink-soft);
-    font-size: 0.9rem;
-  }
-  .stat-n {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--ink);
-    margin-right: 4px;
-  }
+  .stat-row { display: flex; gap: 24px; margin: 8px 0 4px; flex-wrap: wrap; }
+  .stat { color: var(--text-muted); }
+  .stat-n { font-size: 24px; font-weight: 700; color: var(--heading); margin-right: 4px; }
 
-  .panel {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 20px;
-    margin-top: 20px;
-  }
-  .table-scroll {
-    overflow-x: auto;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  th {
-    text-align: left;
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--ink-soft);
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--line-strong);
-    background: var(--surface-2);
-    white-space: nowrap;
-  }
-  td {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--line);
-  }
-  .mono {
-    font-family: var(--font-mono);
-    font-size: 0.86rem;
-  }
-  .empty {
-    color: var(--ink-soft);
-    padding: 14px 0;
-  }
-  .open-link {
-    font-weight: 600;
-    color: var(--brass);
-    text-decoration: none;
-    white-space: nowrap;
-    background-image: linear-gradient(currentColor, currentColor);
-    background-size: 0 1px;
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .open-link {
-      transition: background-size 0.2s ease;
-    }
-  }
-  .open-link:hover,
-  .open-link:focus-visible {
-    background-size: 100% 1px;
-  }
+  /* panels: upstream's guide sections */
+  .panel { background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-2); padding: 30px; margin-top: 24px; }
+  .table-scroll { overflow-x: auto; }
+  /* tables: upstream's (cyan header, 12px cells, grey rules) */
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-weight: 700; color: var(--on-accent); background: var(--accent); padding: 12px; white-space: nowrap; }
+  td { padding: 12px; border-bottom: 1px solid var(--border); }
+  tbody tr:hover { background: var(--hover); --link: var(--accent-hover); }
+  .mono { font-variant-numeric: tabular-nums; }
+  .empty { color: var(--text-muted); padding: 14px 0; }
+  .open-link { font-weight: 600; color: var(--link); white-space: nowrap; text-underline-offset: 2px; }
+  .open-link:hover { color: var(--accent-hover); }
 
-  /* Status pill — the "specimen label": sharp corner + left colour bar. */
+  /* status labels: small rounded tags on a tinted ground; the words say the state */
   .pill {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 2px 8px 2px 6px;
-    border-radius: 2px;
-    border-left: 3px solid var(--line-strong);
-    background: var(--surface-2);
-    color: var(--ink);
+    display: inline-block; font-size: 14px; font-weight: 600; text-transform: capitalize;
+    padding: 2px 8px; border-radius: var(--r); background: var(--hover); color: var(--text-soft);
   }
-  .pill--approved {
-    background: var(--brass-tint);
-    border-left-color: var(--brass);
-  }
-  .pill--pending {
-    background: var(--ochre-tint);
-    border-left-color: var(--ochre);
-  }
-  .pill--denied {
-    background: var(--mulberry-tint);
-    border-left-color: var(--mulberry);
-  }
+  .pill--approved { background: var(--ok-tint); color: var(--ok); }
+  .pill--pending { background: var(--wait-tint); color: var(--wait); }
+  .pill--denied { background: var(--danger-tint); color: var(--danger-hover); }
 </style>

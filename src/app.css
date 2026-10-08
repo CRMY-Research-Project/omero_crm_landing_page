@@ -1,5 +1,5 @@
-/* Design tokens (self-hosted, no CDN): --brass, --paper, font stacks, etc.
-   Replaces the former Google-Fonts "Inter" + Font Awesome CDN imports. */
+/* Design tokens (tokens.css): upstream's colours and Inter, self-hosted, so
+   no CDN imports (upstream loaded Inter and Font Awesome from CDNs). */
 @import "./tokens.css";
 
 /* Reset default margins and padding */
@@ -12,9 +12,20 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
-  background-color: var(--paper);
-  color: var(--ink);
+  background-color: var(--bg);
+  color: var(--text);
   font-family: var(--font-sans);
+}
+
+/* keyboard focus in upstream's focus blue (the search box's), always visible */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* buttons keep their own sizes but use Inter, not the browser's default face */
+button {
+  font-family: inherit;
 }
 
 .page-container {
@@ -111,7 +122,7 @@ nav {
   height: 2px;
   bottom: -5px;
   left: 0;
-  background-color: var(--brass);
+  background-color: var(--accent-bright);
   transition: width 0.3s ease;
 }
 
@@ -121,12 +132,12 @@ nav {
 
 /* Active navigation item */
 .nav-links li.active button {
-  color: var(--brass);
+  color: var(--accent);
 }
 
 .nav-links li.active button span::after {
   width: 100% !important;
-  background-color: var(--brass);
+  background-color: var(--accent);
 }
 
 /* Keep the hover effect */
@@ -150,18 +161,13 @@ main {
 }
 
 .intro-section {
-  padding: 72px 20px;
+  padding: 40px 20px;
   margin-top: 20px;
-  /* Asset-free "specimen under glass" motif: a slate -> verdigris duotone wash
-     under a faint microscope-reticle grid. No remote image (CSP-safe), and
-     distinct from the stock stock-photo hero it replaces. */
-  background-color: var(--ink);
-  background-image:
-    linear-gradient(135deg, rgba(15, 124, 107, 0.42), rgba(24, 42, 49, 0.92)),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 40px),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 40px),
-    radial-gradient(circle at 28% 32%, rgba(63, 182, 161, 0.28), transparent 60%);
-  background-size: cover, 40px 40px, 40px 40px, cover;
+  /* upstream's banner photo (Unsplash photo-1592838948611), self-hosted so the
+     page needs no remote image; see docs/portal-style.md in omero-docker/dsa */
+  background-color: var(--heading);
+  background-image: url("./assets/banner.webp");
+  background-size: cover;
   background-position: center;
   text-align: center;
 }
@@ -185,9 +191,6 @@ main {
   font-weight: bolder;
 }
 
-.intro-section h2 {
-  font-family: var(--font-display);
-}
 .intro-section h2,
 .intro-section p {
   text-align: center;
@@ -211,7 +214,7 @@ main {
 }
 
 .omero-table thead {
-  background-color: var(--brass);
+  background-color: var(--accent);
   color: white;
   text-align: center;
   font-weight: bold;
@@ -260,8 +263,8 @@ main {
 
 .search-bar:focus {
   outline: none;
-  border-color: var(--brass);
-  box-shadow: 0 0 0 3px var(--brass-tint);
+  border-color: var(--focus);
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 .clear-search {
@@ -306,7 +309,7 @@ main {
   min-width: 100px;
   font-size: 1rem;
   text-align: center;
-  background-color: var(--brass);
+  background-color: var(--accent);
   color: white;
   border: none;
   border-radius: 5px;
@@ -314,12 +317,13 @@ main {
 }
 
 .pagination-controls button:disabled {
-  background-color: #ccc;
+  background-color: var(--border-strong);
+  color: #555555;   /* upstream's grey fill, with readable text */
   cursor: not-allowed;
 }
 
 .viewer-btn {
-  background-color: var(--brass);
+  background-color: var(--accent);
   color: white;
   font-weight: bold;
   border: none;
@@ -330,7 +334,7 @@ main {
 }
 
 .viewer-btn:hover {
-  background-color: var(--brass-deep);
+  background-color: var(--accent-hover);
 }
 
 .outro-section {
@@ -401,7 +405,7 @@ main {
 }
 
 .donate-btn {
-  background-color: var(--brass);
+  background-color: var(--accent);
   color: white;
   border: none;
   padding: 12px 30px;
@@ -417,7 +421,7 @@ main {
 }
 
 .donate-btn:hover {
-  background-color: var(--brass-deep);
+  background-color: var(--accent-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
@@ -453,7 +457,7 @@ main {
 
 .guide-nav h3 {
   margin-bottom: 20px;
-  color: var(--brass);
+  color: var(--accent);
 }
 
 .guide-nav ul {
@@ -477,15 +481,15 @@ main {
 
 .guide-nav a:hover,
 .guide-nav a.active {
-  background-color: #f0f8ff;
-  color: var(--brass);
+  background-color: var(--accent-wash);
+  color: var(--accent-hover);
   font-weight: 500;
 }
 
 .guide-nav a.selected {
   display: block;
   font-weight: bold;
-  background-color: var(--brass);
+  background-color: var(--accent);
   color: white;
   text-decoration: none;
 }
@@ -505,7 +509,7 @@ main {
 }
 
 .guide-section h2 {
-  color: var(--brass);
+  color: var(--accent);
   margin-top: 0;
   padding-bottom: 10px;
   border-bottom: 2px solid #e1f5fe;
@@ -518,7 +522,7 @@ main {
 }
 
 .step-number {
-  background-color: var(--brass);
+  background-color: var(--accent);
   color: white;
   width: 30px;
   height: 30px;
@@ -547,7 +551,7 @@ main {
 .note {
   background-color: #e1f5fe;
   padding: 15px;
-  border-left: 4px solid var(--brass);
+  border-left: 4px solid var(--accent-bright);
   margin: 20px 0;
   border-radius: 0 4px 4px 0;
 }
@@ -619,7 +623,7 @@ main {
   bottom: 0;
   width: 300px;
   height: 2px;
-  background: var(--brass);
+  background: var(--footer-rule);
 }
 
 .footer-section p,
@@ -632,7 +636,7 @@ main {
 }
 
 .footer-section a:hover {
-  color: var(--brass);
+  color: var(--footer-hover);
 }
 
 .footer-section ul {
@@ -657,7 +661,7 @@ main {
 }
 
 .social-icons a:hover {
-  color: var(--brass);
+  color: var(--footer-hover);
   transform: translateY(-3px);
 }
 

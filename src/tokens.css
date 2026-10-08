@@ -1,82 +1,62 @@
-/* ==========================================================================
-   Portal Design System — "Specimen Archive" tokens (WS-G)
-   Verbatim shared palette/type/space/motion tokens. IDENTICAL values to the
-   WS-I download-governance console so the two surfaces read as one system.
-   No CDN: OS font stacks with a self-hosted @font-face seam (see design-system.md).
-   ========================================================================== */
+/* Landing page design tokens: the colours, type and shapes of the original
+   CRM landing page (upstream src/app.css), light theme only. The same tokens
+   as the DSA portal (omero-docker/dsa/portal/src/tokens.css, with
+   docs/portal-style.md); keep the copies in step. Cyan that carries text
+   is upstream's #00b4d8 darkened to #007e97 (same hue) for WCAG AA. */
 
 :root {
-  /* ---- Type (no CDN; OS faces with character, generic-keyword fallback) -- */
-  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
-                  Palatino, Charter, Constantia, Georgia, serif;
-  --font-sans: "Optima", "Gill Sans Nova", "Gill Sans", Corbel, "Avenir Next",
-               "Segoe UI Historic", sans-serif;
-  --font-mono: "Cascadia Code", "JetBrains Mono", "IBM Plex Mono", "SF Mono",
-               Consolas, "DejaVu Sans Mono", ui-monospace, monospace;
+  /* ----- Type: Inter, self-hosted (@fontsource-variable/inter, see main.ts) ----- */
+  --font-sans: "Inter Variable", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace;
 
-  /* ---- Colour · light (archival paper + slate ink) --------------------- */
-  --paper: #F1EDE3;      /* app background — warm archival stock            */
-  --surface: #FBF9F3;    /* cards / panels                                  */
-  --surface-2: #E9E3D5;  /* insets, table headers, hovers                  */
-  --ink: #182A31;        /* primary text — slate, never pure black         */
-  --ink-soft: #566368;   /* secondary text                                 */
-  --ink-faint: #8A938F;  /* meta / disabled                                */
-  --line: #D8D0BF;       /* hairline rules / borders                       */
-  --line-strong: #C3B8A1;
+  /* ----- Colour ----- */
+  --bg: #ffffff;               /* page */
+  --surface: #ffffff;          /* cards, panels, dialogs */
+  --surface-2: #f8f9fa;        /* bands and insets (upstream .outro-section) */
+  --hover: #f1f1f1;            /* table row hover */
+  --text: #000000;             /* body text, as upstream */
+  --heading: #2c3e50;          /* page titles (upstream outro heading, footer) */
+  --text-soft: #495057;        /* subtitles, 7.8:1 on --surface-2 */
+  --text-muted: #666666;       /* hints, meta, reasons: 5.7:1 on white */
+  --border: #dddddd;           /* table rules, card edges */
+  --border-strong: #cccccc;    /* inputs, outlined buttons, disabled fill */
 
-  --brass: #0F7C6B;      /* primary accent — verdigris / lab glass         */
-  --brass-deep: #0B5D50; /* hover / pressed                                */
-  --brass-tint: #DCEAE4; /* approved/active backgrounds                    */
-  --mulberry: #9C3A57;   /* destructive / "stain" (deny, revoke)           */
-  --mulberry-deep: #7E2B45;
-  --mulberry-tint: #F3E1E6;
-  --ochre: #A8761B;      /* pending / attention (specimen warning tape)    */
-  --ochre-tint: #F1E7CF;
+  --accent: #007e97;           /* buttons, table headers, links: 4.74:1 with white */
+  --accent-hover: #006578;     /* hover, and links on tinted grounds (6.7:1 on white) */
+  --accent-bright: #00b4d8;    /* upstream cyan as is: decorative lines only (2.46:1) */
+  --accent-tint: #e1f5fe;      /* notes and tags (upstream .note) */
+  --accent-wash: #f0f8ff;      /* menu hover (upstream .guide-nav) */
+  --on-accent: #ffffff;
+  --link: var(--accent);       /* containers with a tinted ground set this to --accent-hover */
+  --focus: #007bff;            /* upstream search-box focus blue: 3.98:1 on white */
 
-  /* ---- Space / shape / depth ------------------------------------------- */
+  --ok: #1e7e34;      --ok-tint: #e9f7ef;      --ok-line: #27ae60;
+  --wait: #8a5a00;    --wait-tint: #fef5e7;    --wait-line: #f39c12;
+  --danger: #c0392b;  --danger-hover: #a93226; --danger-tint: #fdecea;
+  --on-danger: #ffffff;
+
+  --footer: #2c3e50;           /* upstream footer navy */
+  --footer-text: #ecf0f1;      /* 9.6:1 on --footer */
+  --footer-rule: #3498db;      /* heading underline, decorative */
+  --footer-hover: #85c1e9;     /* link hover, 5.7:1 on --footer (upstream's #3498db is 3.5:1) */
+  --footer-bottom: #1a252f;    /* copyright bar */
+
+  /* ----- Space, shape, depth ----- */
   --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
   --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
-  --r-xs: 2px;  /* data rows, pills — deliberately sharp                   */
-  --r: 6px;     /* inputs, buttons                                         */
-  --r-lg: 12px; /* drawers, primary cards                                  */
-  --r-pill: 999px;
-  --shadow-1: 0 1px 0 var(--line);
-  --shadow-2: 0 1px 0 var(--line), 0 12px 34px -20px rgba(16,26,30,.55);
+  --gutter: 100px;             /* page side margin: upstream nav's 20px + 80px */
+  --r: 5px;                    /* buttons, inputs, tags (upstream) */
+  --r-lg: 8px;                 /* cards, dialogs (upstream .guide-section) */
+  --r-pill: 30px;              /* the Donate button */
+  --shadow-1: 0 2px 5px rgba(0, 0, 0, .1);
+  --shadow-2: 0 2px 10px rgba(0, 0, 0, .1);
 
-  /* ---- Motion ---------------------------------------------------------- */
-  --ease: cubic-bezier(.2,.7,.2,1);
-  --ease-out: cubic-bezier(.16,1,.3,1);
-  --dur-1: 120ms; --dur-2: 200ms; --dur-3: 340ms;
+  /* ----- Motion (upstream used 0.3s ease) ----- */
+  --ease: ease;
+  --dur-1: 120ms; --dur-2: 200ms; --dur-3: 300ms;
 
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
-/* ---- Colour · dark (auto via OS preference) ---------------------------- */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #101A1E; --surface: #172329; --surface-2: #1E2C33;
-    --ink: #ECE6D8; --ink-soft: #A6B0AF; --ink-faint: #6E7B7A;
-    --line: #2A383E; --line-strong: #3A4A50;
-    --brass: #3FB6A1; --brass-deep: #2C8E7E; --brass-tint: #123A34;
-    --mulberry: #D67C92; --mulberry-deep: #E79BAD; --mulberry-tint: #3A2029;
-    --ochre: #DDA748; --ochre-tint: #372A12;
-  }
-}
-
-/* explicit theme toggles win over the media query in both directions */
-:root[data-theme="dark"] {
-  --paper: #101A1E; --surface: #172329; --surface-2: #1E2C33;
-  --ink: #ECE6D8; --ink-soft: #A6B0AF; --ink-faint: #6E7B7A;
-  --line: #2A383E; --line-strong: #3A4A50;
-  --brass: #3FB6A1; --brass-deep: #2C8E7E; --brass-tint: #123A34;
-  --mulberry: #D67C92; --mulberry-deep: #E79BAD; --mulberry-tint: #3A2029;
-  --ochre: #DDA748; --ochre-tint: #372A12;
-}
-:root[data-theme="light"] {
-  --paper: #F1EDE3; --surface: #FBF9F3; --surface-2: #E9E3D5;
-  --ink: #182A31; --ink-soft: #566368; --ink-faint: #8A938F;
-  --line: #D8D0BF; --line-strong: #C3B8A1;
-  --brass: #0F7C6B; --brass-deep: #0B5D50; --brass-tint: #DCEAE4;
-  --mulberry: #9C3A57; --mulberry-deep: #7E2B45; --mulberry-tint: #F3E1E6;
-  --ochre: #A8761B; --ochre-tint: #F1E7CF;
-}
+@media (max-width: 1100px) { :root { --gutter: 24px; } }
+@media (max-width: 600px) { :root { --gutter: 16px; } }

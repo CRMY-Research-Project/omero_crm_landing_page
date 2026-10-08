@@ -118,7 +118,7 @@ describe("dashboard endpoint URLs", () => {
 });
 
 describe("pillTone", () => {
-  it("maps states to specimen-label tones", () => {
+  it("maps states to status-label tones", () => {
     expect(pillTone("approved")).toBe("approved");
     expect(pillTone("ACTIVE")).toBe("approved");
     expect(pillTone("done")).toBe("approved");
@@ -167,8 +167,8 @@ describe("scopeLabel & formatDate", () => {
   });
   it("formats an ISO date to a day, em dash when absent", () => {
     expect(formatDate("2026-07-19T09:30:00Z")).toBe("2026-07-19");
-    expect(formatDate(null)).toBe("—");
-    expect(formatDate("nope")).toBe("—");
+    expect(formatDate(null)).toBe("-");
+    expect(formatDate("nope")).toBe("-");
   });
 });
 

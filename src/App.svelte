@@ -18,7 +18,7 @@
     type PortalSummary,
   } from "./lib/api";
 
-  // NFR2: only routes with real content — empty "about"/"donate" pages removed
+  // NFR2: only routes with real content; the empty "about"/"donate" pages are gone
   const routes: { name: Route; label: string }[] = [
     { name: "home", label: "Home" },
     { name: "help", label: "Help" },
@@ -181,7 +181,7 @@
     <div class="footer-section">
       <h3>Get in Touch</h3>
       <p>Cancer Research Malaysia <span>200001007481 (510087-M)</span></p>
-      <p>+603 5650 9797 (9am – 5pm)</p>
+      <p>+603 5650 9797 (9am to 5pm)</p>
       <p>
         Level 1, Subang Jaya Medical Centre South Tower, No. 1, Jalan SS 12/1A,
         47500 Subang Jaya, Selangor Darul Ehsan.
@@ -260,24 +260,24 @@
   .shell-user {
     font-size: 14px;
     font-weight: 600;
-    color: var(--ink-soft);
+    color: var(--text-muted);
     max-width: 160px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
   .shell-btn {
-    font-size: 14px;
     font-weight: 700;
     text-decoration: none;
-    color: var(--paper);
-    background: var(--brass);
-    padding: 7px 14px;
-    border-radius: 6px;
+    color: var(--on-accent);
+    background: var(--accent);
+    padding: 8px 14px;
+    border-radius: 5px;
     transition: background 0.2s ease;
   }
   .shell-btn:hover {
-    background: var(--brass-deep);
+    color: var(--on-accent);
+    background: var(--accent-hover);
   }
   .social-icons a :global(svg) {
     width: 26px;

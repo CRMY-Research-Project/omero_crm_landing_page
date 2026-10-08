@@ -91,8 +91,8 @@
             <li>Zoom in and out of the image by using the + and - buttons in the top-left corner or by scrolling the mouse wheel.</li>
             <li>Rotate the image by holding Shift on your keyboard and then drag the image using the mouse.</li>
             <li>View metadata in the right panel.</li>
-            <p>For more information about OMERO iViewer, refer to the <a href="https://omero-guides.readthedocs.io/en/latest/iviewer/docs/iviewer_viewing.html" target="_blank">OMERO documentation</a>.</p>
           </ul>
+          <p>For more information about OMERO iViewer, refer to the <a href="https://omero-guides.readthedocs.io/en/latest/iviewer/docs/iviewer_viewing.html" target="_blank">OMERO documentation</a>.</p>
         `,
           imageSrc: crm4,
           altText: "Image viewer",

@@ -59,7 +59,7 @@ export function gateRequestUrl(base = GATE_BASE): string {
 }
 
 // --------------------------------------------------------------------------
-// Researcher-dashboard endpoints ("My Portal") — all same-origin GET/JSON.
+// Researcher-dashboard endpoints ("My Portal"): all same-origin GET/JSON.
 // --------------------------------------------------------------------------
 
 /** A user's own download-access request (gate `requests/mine/`). */
@@ -146,7 +146,7 @@ export function portalSummaryUrl(base = PORTAL_BASE): string {
 
 export type PillTone = "approved" | "pending" | "denied" | "neutral";
 
-/** Map a request/grant/job state to a specimen-label pill tone.
+/** Map a request/grant/job state to a status-label tone.
  *  approved/active/done -> brass, pending/running -> ochre,
  *  denied/revoked/expired/failed -> mulberry. */
 export function pillTone(state: string): PillTone {
@@ -183,7 +183,7 @@ export function formatExpiry(
   return `Expires ${new Date(t).toISOString().slice(0, 10)}`;
 }
 
-/** "Image #12" / "Dataset #3" — a grant's scope in one label. */
+/** "Image #12" / "Dataset #3": a grant's scope in one label. */
 export function scopeLabel(scopeType: string, scopeId: number): string {
   const t = scopeType
     ? scopeType.charAt(0).toUpperCase() + scopeType.slice(1)
@@ -193,9 +193,9 @@ export function scopeLabel(scopeType: string, scopeId: number): string {
 
 /** ISO timestamp -> YYYY-MM-DD, or an em dash when absent/invalid. */
 export function formatDate(iso: string | null | undefined): string {
-  if (!iso) return "—";
+  if (!iso) return "-";
   const t = Date.parse(iso);
-  if (Number.isNaN(t)) return "—";
+  if (Number.isNaN(t)) return "-";
   return new Date(t).toISOString().slice(0, 10);
 }
 

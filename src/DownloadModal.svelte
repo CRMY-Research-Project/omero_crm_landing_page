@@ -96,7 +96,7 @@
         <textarea
           bind:value={reason}
           rows="3"
-          placeholder="Project, intended use, approval references…"
+          placeholder="Project, intended use, approval references..."
         ></textarea>
       </label>
 
@@ -113,7 +113,7 @@
       <div class="dl-actions">
         <button class="dl-cancel" on:click={onClose}>Cancel</button>
         <button class="dl-submit" on:click={submit} disabled={submitting}>
-          {submitting ? "Submitting…" : "Submit request"}
+          {submitting ? "Submitting..." : "Submit request"}
         </button>
       </div>
     {/if}
@@ -131,129 +131,46 @@
 
 <style>
   .dl-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 16px;
+    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5);
+    display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px;
   }
+  /* upstream's cards: white, 8px corners, soft shadow, 30px padding */
   .dl-modal {
-    background: #fff;
-    border-radius: 10px;
-    max-width: 520px;
-    width: 100%;
-    padding: 24px;
-    position: relative;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-    max-height: 90vh;
-    overflow-y: auto;
+    background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-2);
+    max-width: 540px; width: 100%; padding: 30px; position: relative; max-height: 90vh; overflow-y: auto;
   }
   .dl-close {
-    position: absolute;
-    top: 12px;
-    right: 14px;
-    background: none;
-    border: none;
-    font-size: 1.6rem;
-    line-height: 1;
-    cursor: pointer;
-    color: #666;
+    position: absolute; top: 14px; right: 16px; min-width: 32px; min-height: 32px;
+    background: none; border: none; border-radius: var(--r); font-size: 1.6rem; line-height: 1;
+    cursor: pointer; color: var(--text-muted);
   }
-  .dl-modal h2 {
-    margin: 0 0 4px;
-    font-size: 1.25rem;
-  }
-  .dl-sub {
-    color: #555;
-    font-size: 0.9rem;
-    margin: 0 0 16px;
-  }
+  .dl-close:hover { color: var(--text); background: var(--hover); }
+  .dl-modal h2 { margin: 0 0 4px; font-size: 24px; font-weight: 700; color: var(--accent); }
+  .dl-sub { color: var(--text-soft); margin: 0 0 16px; }
+  /* what is being requested: upstream's note */
   .dl-target {
-    background: #f5f6f8;
-    border-radius: 8px;
-    padding: 10px 14px;
-    margin: 0 0 16px;
+    background: var(--accent-tint); border-left: 4px solid var(--accent-bright); border-radius: 0 4px 4px 0;
+    padding: 12px 15px; margin: 0 0 16px;
   }
-  .dl-target div {
-    display: flex;
-    gap: 8px;
-    font-size: 0.9rem;
-  }
-  .dl-target dt {
-    font-weight: 600;
-    min-width: 62px;
-    margin: 0;
-  }
-  .dl-target dd {
-    margin: 0;
-    word-break: break-all;
-  }
-  .dl-check {
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-    font-size: 0.88rem;
-    margin-bottom: 14px;
-    cursor: pointer;
-  }
-  .dl-field {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-bottom: 14px;
-  }
-  .dl-field span {
-    font-weight: 600;
-    font-size: 0.88rem;
-  }
+  .dl-target div { display: flex; gap: 8px; }
+  .dl-target dt { font-weight: 600; min-width: 62px; margin: 0; }
+  .dl-target dd { margin: 0; word-break: break-all; }
+  .dl-check { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 14px; cursor: pointer; }
+  .dl-field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
+  .dl-field span { font-weight: 600; }
   .dl-field textarea,
-  .dl-field input {
-    font: inherit;
-    padding: 8px;
-    border: 1px solid #c8ccd2;
-    border-radius: 6px;
-  }
-  .dl-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 8px;
-  }
+  .dl-field input { font: inherit; padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: var(--r); }
+  .dl-field textarea:focus-visible,
+  .dl-field input:focus-visible { outline: none; border-color: var(--focus); box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); }
+  .dl-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
   .dl-cancel,
-  .dl-submit {
-    font: inherit;
-    border-radius: 6px;
-    padding: 8px 18px;
-    cursor: pointer;
-    border: none;
-  }
-  .dl-cancel {
-    background: #e7e9ee;
-    color: #333;
-  }
-  .dl-submit {
-    background: #2563eb;
-    color: #fff;
-  }
-  .dl-submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-  .dl-message {
-    margin: 14px 0 0;
-    padding: 10px 12px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-  }
-  .dl-message.ok {
-    background: #e7f6ec;
-    color: #14532d;
-  }
-  .dl-message.err {
-    background: #fdeaea;
-    color: #7f1d1d;
-  }
+  .dl-submit { font: inherit; font-weight: 700; border-radius: var(--r); padding: 8px 18px; min-height: 40px; cursor: pointer; }
+  .dl-cancel { background: var(--surface); color: var(--text); border: 1px solid var(--border-strong); font-weight: 400; }
+  .dl-cancel:hover { background: var(--hover); }
+  .dl-submit { background: var(--accent); color: var(--on-accent); border: 1px solid var(--accent); }
+  .dl-submit:hover:not(:disabled) { background: var(--accent-hover); border-color: var(--accent-hover); }
+  .dl-submit:disabled { cursor: not-allowed; background: var(--border-strong); border-color: var(--border-strong); color: #555555; }
+  .dl-message { margin: 14px 0 0; padding: 15px; border-left: 4px solid transparent; border-radius: 0 4px 4px 0; color: var(--text); }
+  .dl-message.ok { background: var(--ok-tint); border-left-color: var(--ok-line); }
+  .dl-message.err { background: var(--danger-tint); border-left-color: var(--danger); }
 </style>
