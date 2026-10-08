@@ -54,4 +54,7 @@ class TestLoadIndexPage(IWebTest):
         # asserts we get a 200 response code etc
         rsp = get(django_client, index_url)
         html_str = rsp.content.decode()
-        assert "Welcome" in html_str
+        # The server sends the Svelte app's shell and the browser draws the
+        # page text, so check the shell itself
+        assert "<title>CRM Malaysia</title>" in html_str
+        assert '<div id="app"' in html_str

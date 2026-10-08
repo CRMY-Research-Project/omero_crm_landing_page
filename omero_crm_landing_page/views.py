@@ -18,7 +18,6 @@
 
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
-from django.urls import reverse
 from django.template import loader
 from django.templatetags import static
 
@@ -151,10 +150,10 @@ def portal_summary(request, conn=None, **kwargs):
         try:
             uid = conn.getUserId()
             counts = {
-                "projects": sum(
-                    1 for _ in conn.getObjects("Project", opts={"owner": uid})),
-                "datasets": sum(
-                    1 for _ in conn.getObjects("Dataset", opts={"owner": uid})),
+                "projects": sum(1 for _ in conn.getObjects(
+                    "Project", opts={"owner": uid})),
+                "datasets": sum(1 for _ in conn.getObjects(
+                    "Dataset", opts={"owner": uid})),
             }
         except Exception:  # pragma: no cover - opts unsupported / heavy tree
             counts = None

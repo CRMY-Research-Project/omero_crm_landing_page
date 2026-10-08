@@ -24,6 +24,18 @@ jobs:
       STAGE: app
     steps:
       - uses: actions/checkout@v4
+      # OMERO.web serves the Vite build, which git ignores: build it so the
+      # plugin's package carries it (MANIFEST.in), then drop node_modules so
+      # flake8 does not lint it
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Build the landing page
+        run: |
+          npm ci
+          npm run build
+          rm -rf node_modules
       - name: Checkout omero-test-infra
         uses: actions/checkout@master
         with:
